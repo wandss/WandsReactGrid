@@ -20,7 +20,10 @@ export class GridRows extends React.Component{
     this.setState({isSelected:isSelected});
   }
   render(){
-    const tdStyle={cursor:'default'};
+    const tdStyle={
+      cursor:this.props.getRowId||this.props.getRow?
+      'pointer':'default',
+    };
     const keys = Object.keys(this.props.row);
     const row = keys.map((key,index)=>
       <td key={index} onClick={this.handleClick.bind(this)}
