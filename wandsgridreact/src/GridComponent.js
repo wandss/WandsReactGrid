@@ -62,15 +62,38 @@ export class GridComponent extends React.Component{
   }
   filterData(e){
     this.setState({filter:e.target.value});
+    const userSearch=e.target.value;
     const gridData=this.state.gridData.slice();
+    let foundIds=[];
+    let words=[];
     const cols = this.state.cols;
     const filteredData=gridData.filter(item=>{
       const result=cols.map(col=>{
         if(item[col]!==null){
+          if(Array.isArray(item[col])){
+            item[col].map((word)=>{
+              words.push(word.toString().toLowerCase())
+            })
+          }
+          else{
+            words.push(item[col].toString().toLowerCase())
+          }
+          words.map((word)=>{
+            //console.log(word.slice(0,userSearch.length))
+            //console.log(userSearch.toLowerCase())
+            //console.log(word.slice(0, userSearch.length)===userSearch.toLowerCase())
+            if(word.slice(0, userSearch.length)===userSearch.toLowerCase()){
+              console.log(item)
+              return col
+              //foundIds.push(item.id)
+            }
+          })
+          /*
           if(item[col].toString().toLowerCase()===e.target.value.toLowerCase()){
             return col
           }
           return undefined
+          */
         }
         return undefined
       })
@@ -82,6 +105,27 @@ export class GridComponent extends React.Component{
       return undefined
       }
     );
+    /*
+    const newGridData=foundIds.filter((id, index, ar)=>
+      ar.indexOf(id)===index).map((id)=>
+        gridData.filter((item)=>item.id===id));
+
+    console.log(newGridData)
+        */
+    foundIds=foundIds.filter((id, index, arr)=>
+      arr.indexOf(id)===index);
+    console.log(foundIds)
+    const newGridData=foundIds.map((id)=>
+      gridData.filter((item)=>item.id===id))
+   // console.log(newGridData)
+    /*
+    if(newGridData.length>0){
+      this.setState({gridData:newGridData});
+    }
+    else{
+      this.setState({gridData:this.state.originalGrid.slice()})
+    }
+   */
 
     if(filteredData.length>0){
       this.setState({gridData:filteredData});
