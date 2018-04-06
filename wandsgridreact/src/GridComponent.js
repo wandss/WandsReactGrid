@@ -62,33 +62,25 @@ export class GridComponent extends React.Component{
   }
   filterData(e){
     this.setState({filter:e.target.value});
+    const userSearch=e.target.value;
     const gridData=this.state.gridData.slice();
     const cols = this.state.cols;
-    const filteredData=gridData.filter(item=>{
-      const result=cols.map(col=>{
-        if(item[col]!==null){
-          if(item[col].toString().toLowerCase()===e.target.value.toLowerCase()){
-            return col
-          }
-          return undefined
-        }
-        return undefined
-      })
+    let result = userSearch.length>0?
+      cols.map((col)=>gridData.filter((item)=>{
+        const words=Array.isArray(item[col])?
+          item[col]:[item[col]];
+        return words.filter((word)=>
+          word.toString().toLowerCase().slice(0,
+            userSearch.length)===userSearch.toLowerCase()).length>0?
+              item:null;
+        })
+      ):[];
 
-      if(result.filter(res=>res!==undefined).length>0){
-        return item;
-      }
-
-      return undefined
-      }
-    );
-
-    if(filteredData.length>0){
-      this.setState({gridData:filteredData});
-    }
-    else{
+    result=result.filter((item)=>item.length!==0)[0]
+    result!==undefined&&result.length>0?
+      this.setState({gridData:result}):
       this.setState({gridData:this.state.originalGrid.slice()})
-    }
+
   }
   render(){
     const cols = this.state.cols
@@ -131,8 +123,11 @@ GridComponent.defaultProps={
     gridData:[
         {id:1,Artist:'Silverchair','Genre':'Rock','Albums':['Diorama','Frog Stomp']},
         {id:2,Artist:'Led Zeppelin','Genre':'Rock','Albums':'The Song Remains the Same'},
-        {id:3,Artist:'Pink Floyd','Genre':'Progressive','Albums':['The Wall','The Darks Side of the Moon']},
+        {id:3,Artist:'Pink Floyd','Genre':'Progressive','Albums':['The Wall','The Dark Side of the Moon']},
         {id:4,Artist:'Queen','Genre':'Rock','Albums':['Killer Queen']},
+        {id:5,Artist:'QOTSA','Genre':'Rock','Albums':'Songs for the Deaf'},
+        {id:11,Artist:'Foo Fighters','Genre':'Rock','Albums':'One By One'},
+        {id:7,Artist:'Steve Vai','Genre':'Instrumental','Albums':'The 7Th Song'},
     ]
 }
 GridComponent.propTypes={
@@ -143,11 +138,9 @@ GridComponent.propTypes={
   cssClass:PropTypes.string,
 }
 /*TODO
- * Allow search to match by character. Rigth now its is
- *  matching only the whole word.
- * When data came from Array, they're not been filtered.
  * ADD Footer to GRID
  * ADD Pagination and Navigation
  * ADD Icons for sorting
- * Creates Method to Hide Column?
+ * Creates Method to Hide Column??
+ * Make filter work by char?
  */
