@@ -63,7 +63,7 @@ export class GridComponent extends React.Component{
   filterData(e){
     this.setState({filter:e.target.value});
     const userSearch=e.target.value;
-    const gridData=this.state.gridData.slice();
+    const gridData=this.state.originalGrid.slice();
     const cols = this.state.cols;
     let result = userSearch.length>0?
       cols.map((col)=>gridData.filter((item)=>{
