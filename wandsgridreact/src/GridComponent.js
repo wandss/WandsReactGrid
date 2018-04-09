@@ -121,13 +121,13 @@ export class GridComponent extends React.Component{
 
 GridComponent.defaultProps={
     gridData:[
-        {id:1,Artist:'Silverchair','Genre':'Rock','Albums':['Diorama','Frog Stomp',],Date:'22/09/1984' },
-        {id:2,Artist:'Led Zeppelin','Genre':'Rock','Albums':'The Song Remains the Same'},
-        {id:3,Artist:'Pink Floyd','Genre':'Progressive','Albums':['The Wall','The Dark Side of the Moon']},
-        {id:4,Artist:'Queen','Genre':'Rock','Albums':['Killer Queen']},
-        {id:5,Artist:'QOTSA','Genre':'Rock','Albums':'Songs for the Deaf'},
-        {id:11,Artist:'Foo Fighters','Genre':'Rock','Albums':'One By One'},
-        {id:7,Artist:'Steve Vai','Genre':'Instrumental','Albums':'The 7Th Song'},
+      {id:1,Artist:'Silverchair','Genre':'Rock','Albums':['Diorama','Frog Stomp',],Price:'R$22.99',Stars:-5 },
+      {id:2,Artist:'Led Zeppelin','Genre':'Rock','Albums':'The Song Remains the Same',Price:'R$59.99', Starts:-4},
+      {id:3,Artist:'Pink Floyd','Genre':'Progressive','Albums':['The Wall','The Dark Side of the Moon'],Price:'R$49.99', Stars:4},
+      {id:4,Artist:'Queen','Genre':'Rock','Albums':['Killer Queen'],Price:'R$59.99',Stars:2 },
+      {id:5,Artist:'QOTSA','Genre':'Rock','Albums':'Songs for the Deaf',Price:'R$19.99', Stars:1},
+      {id:11,Artist:'Foo Fighters','Genre':'Rock','Albums':'One By One',Price:'R$36.99',Stars:-1},
+      {id:7,Artist:'Steve Vai','Genre':'Instrumental','Albums':'The 7Th Song',Price:'R$21', Stars:-2},
     ]
 }
 GridComponent.propTypes={
@@ -138,7 +138,7 @@ GridComponent.propTypes={
   cssClass:PropTypes.string,
 }
 /*TODO
- * Validte number, date
+ * Check number, currency, date...
  * ADD Footer to GRID
  * ADD Pagination and Navigation
  * ADD Icons for sorting
