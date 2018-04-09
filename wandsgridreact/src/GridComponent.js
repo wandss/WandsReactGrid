@@ -67,8 +67,9 @@ export class GridComponent extends React.Component{
     const cols = this.state.cols;
     let result = userSearch.length>0?
       cols.map((col)=>gridData.filter((item)=>{
-        const words=Array.isArray(item[col])?
+        let words=Array.isArray(item[col])?
           item[col]:[item[col]];
+        words=words.filter((word)=>word!==undefined);
         return words.filter((word)=>
           word.toString().toLowerCase().slice(0,
             userSearch.length)===userSearch.toLowerCase()).length>0?
