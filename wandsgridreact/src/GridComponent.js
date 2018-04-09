@@ -121,7 +121,7 @@ export class GridComponent extends React.Component{
 
 GridComponent.defaultProps={
     gridData:[
-        {id:1,Artist:'Silverchair','Genre':'Rock','Albums':['Diorama','Frog Stomp']},
+        {id:1,Artist:'Silverchair','Genre':'Rock','Albums':['Diorama','Frog Stomp',],Date:'22/09/1984' },
         {id:2,Artist:'Led Zeppelin','Genre':'Rock','Albums':'The Song Remains the Same'},
         {id:3,Artist:'Pink Floyd','Genre':'Progressive','Albums':['The Wall','The Dark Side of the Moon']},
         {id:4,Artist:'Queen','Genre':'Rock','Albums':['Killer Queen']},
@@ -138,6 +138,7 @@ GridComponent.propTypes={
   cssClass:PropTypes.string,
 }
 /*TODO
+ * Validte number, date
  * ADD Footer to GRID
  * ADD Pagination and Navigation
  * ADD Icons for sorting
