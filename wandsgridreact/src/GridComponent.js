@@ -146,10 +146,20 @@ GridComponent.propTypes={
   cssClass:PropTypes.string,
 }
 /*TODO
- * Check number, currency, date...
+ * Fix:
+ *   Since now I'm using RegExp,
+ *   handle if user enter an invalid RegExp
+ *    first. Probably handle this with try block
+ *  Some negative values are not been filtered
+ *
+ * Review unnecessairy state
+ * Check and format number, currency, dates and datetimes...
+ * Allow user to pass the color for each line. As a valu in the Object
+ *  {..color:'#FFB957'}
+ *  do the same for tolltip?
  * ADD Footer to GRID
  * ADD Pagination and Navigation
  * ADD Icons for sorting
  * Creates Method to Hide Column??
- * Make filter work by char?
+ * Create a Component to show help on usage.
  */
