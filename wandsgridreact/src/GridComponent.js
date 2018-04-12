@@ -62,7 +62,7 @@ export class GridComponent extends React.Component{
   }
   filterData(e){
     this.setState({filter:e.target.value});
-    const userSearch=e.target.value;
+    const userSearch=e.target.value.toLowerCase();
     const gridData=this.state.originalGrid.slice();
     const cols = this.state.cols;
     let result = userSearch.length>0?
@@ -70,18 +70,23 @@ export class GridComponent extends React.Component{
         let words=Array.isArray(item[col])?
           item[col]:[item[col]];
         words=words.filter((word)=>word!==undefined);
+        const pattern = new RegExp(userSearch);
         return words.filter((word)=>
-          word.toString().toLowerCase().slice(0,
-            userSearch.length)===userSearch.toLowerCase()).length>0?
+          pattern.test(word.toString().toLowerCase()
+          )).length>0?
               item:null;
         })
       ):[];
 
-    result=result.filter((item)=>item.length!==0)[0]
+    let filteredResult=[]
+    result.filter((res)=>res.length>0).map((item)=>
+      item.map((obj)=>filteredResult.push(obj))
+    )
+    result = filteredResult.filter((item, index,arr)=>arr.indexOf(item)===index)
+
     result!==undefined&&result.length>0?
       this.setState({gridData:result}):
       this.setState({gridData:this.state.originalGrid.slice()})
-
   }
   render(){
     const cols = this.state.cols
@@ -129,6 +134,8 @@ GridComponent.defaultProps={
       {id:5,Artist:'QOTSA','Genre':'Rock','Albums':'Songs for the Deaf',Price:'R$19.99', Stars:1},
       {id:11,Artist:'Foo Fighters','Genre':'Rock','Albums':'One By One',Price:'R$36.99',Stars:-1},
       {id:7,Artist:'Steve Vai','Genre':'Instrumental','Albums':'The 7Th Song',Price:'R$21', Stars:-2},
+      {id:77,Artist:'Portishead','Genre':'Trip Rock','Albums':'Roseland NYC live',Price:'R$33.99', Stars:3},
+      {id:42,Artist:'Massive Atack','Genre':'Trip Rock','Albums':'Mezzanine',Price:'R$18.65', Stars:2.75},
     ]
 }
 GridComponent.propTypes={
