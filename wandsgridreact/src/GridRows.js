@@ -19,19 +19,6 @@ export class GridRows extends React.Component{
     }
     this.setState({isSelected:isSelected});
   }
-  checkType(value){
-    if(!isNaN(Number(value))){
-      value = Number(value)
-    }
-    if(value.toString().split('$').length>1){
-      let newValue = value.toString().split('$');
-      const currencySymbol=newValue[0]//.length>0?newValue[0]:'';
-      newValue = Number(newValue[newValue.length-1]).toLocaleString();
-      return currencySymbol+'$'+newValue
-
-    }
-    return value
-  }
   isValueNegative(value){
     if(!isNaN(Number(value))){
       return Number(value)<0?true:false;
@@ -47,11 +34,11 @@ export class GridRows extends React.Component{
       <td key={index} onClick={this.handleClick.bind(this)}
        style={{...tdStyle,
            color:this.isValueNegative(this.props.row[key])?'red':
-           this.state.isSelected?'':'blue'}}
+           this.state.isSelected?'':'#3555FA'}}
       >
-       {this.checkType(this.props.row[key] instanceof Array?
+       {this.props.row[key] instanceof Array?
          (this.props.row[key].join(', ')):
-         (this.props.row[key]))}
+         (this.props.row[key])}
       </td>
     );
     const rowStyle={

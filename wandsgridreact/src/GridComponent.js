@@ -8,9 +8,7 @@ export class GridComponent extends React.Component{
   constructor(props){
     super(props);
     this.state={sortedBy:'', gridData:this.props.gridData,
-      getSelectedRowId:this.props.getRowId,
-      getRow:this.props.getRow, filter:"",
-      originalGrid:[], cols:[],
+      filter:"", originalGrid:[], cols:[],
     };
     this.headerSort = this.headerSort.bind(this);
   }
@@ -46,6 +44,29 @@ export class GridComponent extends React.Component{
     }
     this.setState({sortedBy:columnName, gridData:newGridData});
   }
+  gridTypeFormating(value){
+    if(value!==undefined){
+      if(!isNaN(Number(value))){
+        value = value.toLocaleString()
+        if(value.length>=10){
+          value = new Date(value).toLocaleString()==='Invalid Date'?
+            value:new Date(value).toLocaleString()
+        }
+      }
+      if(value.toString().split('$').length>1){
+        let newValue = value.toString().split('$');
+        const currencySymbol=newValue[0]//.length>0?newValue[0]:'';
+        newValue = Number(newValue[newValue.length-1]).toLocaleString();
+        return currencySymbol+'$'+newValue
+      }
+      if(isNaN(Number(value))){
+        value = new Date(value).toLocaleString()==='Invalid Date'?
+          value:new Date(value).toLocaleString()
+      }
+    }
+    return value;
+  }
+
   componentWillReceiveProps(nextProps){
       if(nextProps.gridData !== this.props.gridData){
           this.setState({gridData:nextProps.gridData,
@@ -55,6 +76,12 @@ export class GridComponent extends React.Component{
       }
   }
   componentDidMount(){
+    const wGrid=this.props.gridData.slice()
+    const wCols=Object.keys(wGrid[0])
+    wCols.map((col)=>wGrid.map((row)=>
+      row[col]=this.gridTypeFormating(row[col])
+    ))
+
     this.setState({
       originalGrid:this.state.gridData.slice(),
       cols:Object.keys(this.state.gridData.slice()[0])
@@ -69,7 +96,7 @@ export class GridComponent extends React.Component{
       cols.map((col)=>gridData.filter((item)=>{
         let words=Array.isArray(item[col])?
           item[col]:[item[col]];
-        words=words.filter((word)=>word!==undefined);
+        words=words.filter((word)=>word!==null).filter((word)=>word!==undefined);
         const pattern = new RegExp(userSearch);
         return words.filter((word)=>
           pattern.test(word.toString().toLowerCase()
@@ -97,8 +124,8 @@ export class GridComponent extends React.Component{
     );
     const rows = this.state.gridData.map(row=>
         <GridRows key={row.id} row={row}
-          getRowId={this.state.getSelectedRowId}
-          getRow={this.state.getRow}
+          getRowId={this.props.getRowId}
+          getRow={this.props.getRow}
         />
     );
     const input =this.props.searchField?(
@@ -127,15 +154,24 @@ export class GridComponent extends React.Component{
 
 GridComponent.defaultProps={
     gridData:[
-      {id:1,Artist:'Silverchair','Genre':'Rock','Albums':['Diorama','Frog Stomp',],Price:'R$22.99',Stars:-5 },
-      {id:2,Artist:'Led Zeppelin','Genre':'Rock','Albums':'The Song Remains the Same',Price:'R$59.99', Starts:-4},
-      {id:3,Artist:'Pink Floyd','Genre':'Progressive','Albums':['The Wall','The Dark Side of the Moon'],Price:'R$49.99', Stars:4},
-      {id:4,Artist:'Queen','Genre':'Rock','Albums':['Killer Queen'],Price:'R$59.99',Stars:2 },
-      {id:5,Artist:'QOTSA','Genre':'Rock','Albums':'Songs for the Deaf',Price:'R$19.99', Stars:1},
-      {id:11,Artist:'Foo Fighters','Genre':'Rock','Albums':'One By One',Price:'R$36.99',Stars:-1},
-      {id:7,Artist:'Steve Vai','Genre':'Instrumental','Albums':'The 7Th Song',Price:'R$21', Stars:-2},
-      {id:77,Artist:'Portishead','Genre':'Trip Rock','Albums':'Roseland NYC live',Price:'R$33.99', Stars:3},
-      {id:42,Artist:'Massive Atack','Genre':'Trip Rock','Albums':'Mezzanine',Price:'R$18.65', Stars:2.75},
+      {id:1,Artist:'Silverchair','Genre':'Rock',
+       'Albums':['Diorama','Frog Stomp',],Price:'R$22.99',Stars:-5,date:'2018-04-12T16:55:39.131Z'},
+      {id:2,Artist:'Led Zeppelin','Genre':'Rock',
+       'Albums':'The Song remains the Same',Price:'R$59.99',Stars:-4,date:''},
+      {id:3,Artist:'Pink Floyd','Genre':'Progressive',
+       'Albums':['The Wall','The Dark Side of the Moon'],Price:'R$49.99', Stars:4,date:''},
+      {id:4,Artist:'Queen','Genre':'Rock',
+       'Albums':['Killer Queen'],Price:'R$59.99',Stars:2,date:''},
+      {id:5,Artist:'QOTSA','Genre':'Rock',
+       'Albums':'Songs for the Deaf',Price:'R$19.99', Stars:1},
+      {id:11,Artist:'Foo Fighters','Genre':'Rock',
+       'Albums':'One By One',Price:'R$36.99',Stars:-1,date:''},
+      {id:7,Artist:'Steve Vai','Genre':'Instrumental',
+       'Albums':'The 7Th Song',Price:'R$21', Stars:-2,date:''},
+      {id:77,Artist:'Portishead','Genre':'Trip Rock',
+        'Albums':'Roseland NYC live',Price:'R$33.99', Stars:3, date:''},
+      {id:42,Artist:'Massive Atack','Genre':'Trip Rock',
+       'Albums':'Mezzanine',Price:'R$18.65', Stars:2.75, date:'1984-09-22'},
     ]
 }
 GridComponent.propTypes={
