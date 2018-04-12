@@ -146,6 +146,8 @@ GridComponent.propTypes={
   cssClass:PropTypes.string,
 }
 /*TODO
+ * Create a Function to convert dates and number
+ * to the locale string within this component
  * Fix:
  *   Since now I'm using RegExp,
  *   handle if user enter an invalid RegExp
