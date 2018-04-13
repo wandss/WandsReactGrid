@@ -59,7 +59,7 @@ export class GridComponent extends React.Component{
         newValue = Number(newValue[newValue.length-1]).toLocaleString();
         return currencySymbol+'$'+newValue
       }
-      if(isNaN(Number(value))){
+      if(isNaN(Number(value))&&value.length>=10){
         value = new Date(value).toLocaleString()==='Invalid Date'?
           value:new Date(value).toLocaleString()
       }
@@ -68,12 +68,17 @@ export class GridComponent extends React.Component{
   }
 
   componentWillReceiveProps(nextProps){
-      if(nextProps.gridData !== this.props.gridData){
-          this.setState({gridData:nextProps.gridData,
-            cols:Object.keys(nextProps.gridData[0]),
-            originalGrid:nextProps.gridData,
-          });
-      }
+    const wGrid=nextProps.gridData.slice()
+    const wCols=Object.keys(wGrid[0])
+    wCols.map((col)=>wGrid.map((row)=>
+      row[col]=this.gridTypeFormating(row[col])
+    ))
+    if(nextProps.gridData !== this.props.gridData){
+        this.setState({gridData:nextProps.gridData,
+          cols:Object.keys(nextProps.gridData[0]),
+          originalGrid:nextProps.gridData,
+        });
+    }
   }
   componentDidMount(){
     const wGrid=this.props.gridData.slice()

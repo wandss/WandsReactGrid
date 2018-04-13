@@ -23,7 +23,10 @@ export class GridRows extends React.Component{
     if(!isNaN(Number(value))){
       return Number(value)<0?true:false;
     }
-    return false;
+    else if(value!==undefined){
+      return value[0]==='-'&&!isNaN(value[1])?true:false;
+    }
+    return value
   }
   render(){
     const tdStyle={
@@ -34,7 +37,7 @@ export class GridRows extends React.Component{
       <td key={index} onClick={this.handleClick.bind(this)}
        style={{...tdStyle,
            color:this.isValueNegative(this.props.row[key])?'red':
-           this.state.isSelected?'':'#3555FA'}}
+           this.state.isSelected?'':'#3567FA'}}
       >
        {this.props.row[key] instanceof Array?
          (this.props.row[key].join(', ')):
