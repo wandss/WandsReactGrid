@@ -196,12 +196,12 @@ GridComponent.propTypes={
  *   Since now I'm using RegExp,
  *   handle if user enter an invalid RegExp
  *    first. Probably handle this with try block
- *  Some negative values are not been filtered
+ *   Responsiveness. On small screen, grid is overflowing
  *
- * Review unnecessairy state
- * Check and format number, currency, dates and datetimes...
  * Allow user to pass the color for each line. As a valu in the Object
  *  {..color:'#FFB957'}
+ * Review unnecessairy state
+ * Check and format number, currency, dates and datetimes...
  *  do the same for tolltip?
  * ADD Footer to GRID
  * ADD Pagination and Navigation
