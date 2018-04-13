@@ -97,11 +97,16 @@ export class GridComponent extends React.Component{
         let words=Array.isArray(item[col])?
           item[col]:[item[col]];
         words=words.filter((word)=>word!==null).filter((word)=>word!==undefined);
-        const pattern = new RegExp(userSearch);
-        return words.filter((word)=>
-          pattern.test(word.toString().toLowerCase()
-          )).length>0?
-              item:null;
+        try{
+          const pattern = new RegExp(userSearch);
+          return words.filter((word)=>
+            pattern.test(word.toString().toLowerCase()
+            )).length>0?
+                item:null;
+        }
+        catch(err){
+          return null;
+        }
         })
       ):[];
 
@@ -182,8 +187,6 @@ GridComponent.propTypes={
   cssClass:PropTypes.string,
 }
 /*TODO
- * Create a Function to convert dates and number
- * to the locale string within this component
  * Fix:
  *   Since now I'm using RegExp,
  *   handle if user enter an invalid RegExp
