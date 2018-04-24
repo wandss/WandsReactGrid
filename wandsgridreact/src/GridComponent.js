@@ -8,7 +8,7 @@ export class GridComponent extends React.Component{
   constructor(props){
     super(props);
     this.state={sortedBy:'', gridData:this.props.gridData,
-      filter:"", originalGrid:[], cols:[],
+      filter:"", originalGrid:[], cols:[],hiddenColumns:[],
     };
     this.headerSort = this.headerSort.bind(this);
   }
@@ -144,11 +144,23 @@ export class GridComponent extends React.Component{
       this.setState({gridData:result}):
       this.setState({gridData:this.state.originalGrid.slice()})
   }
+  toggleColumns(e){
+    let hidden=this.state.hiddenColumns.slice()
+    if(hidden.indexOf(e.target.id)===-1){
+      hidden.push(e.target.id)
+    }
+    else{
+      hidden=hidden.filter((col)=>col!==e.target.id);
+    }
+    this.setState({hiddenColumns:hidden})
+  }
   render(){
     const cols = this.state.cols
     const header = cols.map((item, index)=>
         <GridColumns key={index} colName={item}
          onClick={(item)=>this.headerSort(item)}
+         getColumnName={this.toggleColumns.bind(this)}
+         hiddenColumns={this.state.hiddenColumns}
         />
     );
     const rows = this.state.gridData.map((row, index)=>
@@ -157,6 +169,7 @@ export class GridComponent extends React.Component{
           getRow={this.props.getRow}
           rowColor={row.rowColor!==undefined?
             row.rowColor:'#3567FA'}
+          hiddenColumns={this.state.hiddenColumns}
         />
     );
     const input =this.props.searchField?(
@@ -165,9 +178,20 @@ export class GridComponent extends React.Component{
        value={this.state.filter}
        onChange={this.filterData.bind(this)}
       />):null;
+    const showColumns=this.state.hiddenColumns.length>0?(
+      this.state.hiddenColumns.map((col)=>
+        <button key={col} id={col}
+         onClick={this.toggleColumns.bind(this)}
+        >
+          {col}
+        </button>
+      )
+    ):null;
+
     return(
       <div>
       {input}
+      {showColumns}
         <table className={"table "+this.props.cssClass}>
           <thead>
             <tr>
