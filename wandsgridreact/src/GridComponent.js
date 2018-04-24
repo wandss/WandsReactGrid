@@ -64,13 +64,24 @@ export class GridComponent extends React.Component{
           value:new Date(value).toLocaleString()
       }
       if(value === 'true'){
-        value = (
-          <i className={this.props.trueValue.cssClass}
-           style={{color:this.props.trueValue.color}}
+        value = this.props.trueValueProps.text===true?
+          this.props.trueValueProps.text:(
+          <i className={this.props.trueValueProps.cssClass}
+           style={{color:this.props.trueValueProps.color}}
           >
-            {this.props.trueValue.text}
+            {this.props.trueValueProps.text}
           </i>
-        )
+        );
+      }
+      if(value==='false'){
+        value = this.props.falseValueProps.text===false?
+          this.props.falseValueProps.text:(
+          <i className={this.props.falseValueProps.cssClass}
+           style={{color:this.props.falseValueProps.color}}
+          >
+            {this.props.falseValueProps.text}
+          </i>
+        );
       }
     }
     return value;
@@ -195,7 +206,8 @@ GridComponent.defaultProps={
       {id:42,Artist:'Massive Atack','Genre':'Trip Rock',
        'Albums':'Mezzanine',Price:'R$18.65', Stars:2.75, date:'1984-09-22', sold_out:true, rowColor:'black'}
     ],
-  trueValue:{cssClass:'', text:'true', color:''}
+  trueValueProps:{cssClass:'', text:'true', color:''},
+  falseValueProps:{cssClass:'', text:'true', color:''}
 }
 GridComponent.propTypes={
   gridData:PropTypes.array.isRequired,
