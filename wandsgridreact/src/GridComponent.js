@@ -45,7 +45,7 @@ export class GridComponent extends React.Component{
     this.setState({sortedBy:columnName, gridData:newGridData});
   }
   gridTypeFormating(value){
-    if(value!==undefined){
+    if(value!==undefined && value !==null){
       if(!isNaN(Number(value))){
         value = value.toLocaleString()
         if(value.length>=10){
@@ -63,6 +63,15 @@ export class GridComponent extends React.Component{
         value = new Date(value).toLocaleString()==='Invalid Date'?
           value:new Date(value).toLocaleString()
       }
+      if(value === 'true'){
+        value = (
+          <i className={this.props.trueValue.cssClass}
+           style={{color:this.props.trueValue.color}}
+          >
+            {this.props.trueValue.text}
+          </i>
+        )
+      }
     }
     return value;
   }
@@ -74,9 +83,8 @@ export class GridComponent extends React.Component{
       row[col]=this.gridTypeFormating(row[col])
     ))
     if(nextProps.gridData !== this.props.gridData){
-        this.setState({gridData:nextProps.gridData,
-          cols:Object.keys(nextProps.gridData[0]),
-          originalGrid:nextProps.gridData,
+        this.setState({gridData:wGrid,
+          cols:wCols,originalGrid:wGrid,
         });
     }
   }
@@ -88,7 +96,7 @@ export class GridComponent extends React.Component{
     ))
 
     this.setState({
-      originalGrid:this.state.gridData.slice(),
+      originalGrid:wGrid.slice(),
       cols:Object.keys(this.state.gridData.slice()[0])
     });
   }
@@ -132,10 +140,12 @@ export class GridComponent extends React.Component{
          onClick={(item)=>this.headerSort(item)}
         />
     );
-    const rows = this.state.gridData.map(row=>
+    const rows = this.state.gridData.map((row, index)=>
         <GridRows key={row.id} row={row}
           getRowId={this.props.getRowId}
           getRow={this.props.getRow}
+          rowColor={row.rowColor!==undefined?
+            row.rowColor:'#3567FA'}
         />
     );
     const input =this.props.searchField?(
@@ -165,7 +175,9 @@ export class GridComponent extends React.Component{
 GridComponent.defaultProps={
     gridData:[
       {id:1,Artist:'Silverchair','Genre':'Rock',
-       'Albums':['Diorama','Frog Stomp',],Price:'R$22.99',Stars:-5,date:'2018-04-12T16:55:39.131Z'},
+       'Albums':['Diorama','Frog Stomp',],Price:'R$22.99',Stars:-5,date:'2018-04-12T16:55:39.131Z',
+        sold_out:true,rowColor:'red'
+      },
       {id:2,Artist:'Led Zeppelin','Genre':'Rock',
        'Albums':'The Song remains the Same',Price:'R$59.99',Stars:-4,date:''},
       {id:3,Artist:'Pink Floyd','Genre':'Progressive',
@@ -175,14 +187,15 @@ GridComponent.defaultProps={
       {id:5,Artist:'QOTSA','Genre':'Rock',
        'Albums':'Songs for the Deaf',Price:'R$19.99', Stars:1},
       {id:11,Artist:'Foo Fighters','Genre':'Rock',
-       'Albums':'One By One',Price:'R$36.99',Stars:-1,date:''},
+       'Albums':'One By One',Price:'R$36.99',Stars:-1,date:'', rowColor:'#049'},
       {id:7,Artist:'Steve Vai','Genre':'Instrumental',
-       'Albums':'The 7Th Song',Price:'R$21', Stars:-2,date:''},
+       'Albums':'The 7Th Song',Price:'R$21', Stars:-2,date:'', rowColor:'magenta'},
       {id:77,Artist:'Portishead','Genre':'Trip Rock',
-        'Albums':'Roseland NYC live',Price:'R$33.99', Stars:3, date:''},
+        'Albums':'Roseland NYC live',Price:'R$33.99', Stars:3, date:'', sold_out:true, rowColor:'pink'},
       {id:42,Artist:'Massive Atack','Genre':'Trip Rock',
-       'Albums':'Mezzanine',Price:'R$18.65', Stars:2.75, date:'1984-09-22'},
-    ]
+       'Albums':'Mezzanine',Price:'R$18.65', Stars:2.75, date:'1984-09-22', sold_out:true, rowColor:'black'}
+    ],
+  trueValue:{cssClass:'', text:'true', color:''}
 }
 GridComponent.propTypes={
   gridData:PropTypes.array.isRequired,
@@ -193,12 +206,9 @@ GridComponent.propTypes={
 }
 /*TODO
  * Fix:
- *   Since now I'm using RegExp,
- *   handle if user enter an invalid RegExp
- *    first. Probably handle this with try block
  *   Responsiveness. On small screen, grid is overflowing
  *
- * Allow user to pass the color for each line. As a valu in the Object
+ * Allow user to pass the color for each line. As a value in the Object
  *  {..color:'#FFB957'}
  * Review unnecessairy state
  * Check and format number, currency, dates and datetimes...

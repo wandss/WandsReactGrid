@@ -15,6 +15,7 @@ class Index extends React.Component{
         <GridComponent searchField
          getRowId={this.rowId}
          getRow={this.row}
+         trueValue={{cssClass:'fa fa-check', color:'green'}}
         />
       </div>
     )

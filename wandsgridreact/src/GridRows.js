@@ -34,18 +34,19 @@ export class GridRows extends React.Component{
       'pointer':'default' };
     const keys = Object.keys(this.props.row);
     const row = keys.map((key,index)=>
-      <td key={index} onClick={this.handleClick.bind(this)}
-       style={{...tdStyle,
-           color:this.isValueNegative(this.props.row[key])?'red':
-           this.state.isSelected?'':'#3567FA'}}
-      >
-       {this.props.row[key] instanceof Array?
-         (this.props.row[key].join(', ')):
-         (this.props.row[key])}
-      </td>
+      key!=='rowColor'?(
+        <td key={index} onClick={this.handleClick.bind(this)}
+         style={{...tdStyle,
+             color:this.isValueNegative(this.props.row[key])?'red':
+             this.state.isSelected?'':this.props.rowColor}}
+        >
+         {this.props.row[key] instanceof Array?
+           (this.props.row[key].join(', ')):
+           (this.props.row[key])}
+        </td>):null
     );
     const rowStyle={
-      color:this.state.isSelected?'green':'',
+      color:this.state.isSelected?'green':''
     };
     return(
       <tr style={rowStyle}>
