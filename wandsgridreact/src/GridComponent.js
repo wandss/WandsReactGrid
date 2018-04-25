@@ -158,7 +158,7 @@ export class GridComponent extends React.Component{
     const cols = this.state.cols
     const header = cols.map((item, index)=>
         <GridColumns key={index} colName={item}
-         onClick={(item)=>this.headerSort(item)}
+         sortBy={(item)=>this.headerSort(item)}
          getColumnName={this.toggleColumns.bind(this)}
          hiddenColumns={this.state.hiddenColumns}
         />
