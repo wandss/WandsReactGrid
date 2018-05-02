@@ -65,7 +65,7 @@ export class GridComponent extends React.Component{
       }
       if(value === 'true'){
         value = this.props.trueValueProps.text===true?
-          'true':(
+          this.props.trueValueProps.text:(
           <i className={this.props.trueValueProps.cssClass}
            style={{color:this.props.trueValueProps.color}}
           >
@@ -75,7 +75,7 @@ export class GridComponent extends React.Component{
       }
       if(value==='false'){
         value = this.props.falseValueProps.text===false?
-          'false':(
+          this.props.falseValueProps.text:(
           <i className={this.props.falseValueProps.cssClass}
            style={{color:this.props.falseValueProps.color}}
           >
@@ -92,23 +92,31 @@ export class GridComponent extends React.Component{
     const wCols=Object.keys(wGrid[0])
     wCols.map((col)=>wGrid.map((row)=>
       row[col]=this.gridTypeFormating(row[col])
-    ))
+    ));
+    const hiddenColumns=nextProps.hiddenColumns!==undefined?
+      this.props.hiddenColumns:[];
     if(nextProps.gridData !== this.props.gridData){
         this.setState({gridData:wGrid,
           cols:wCols,originalGrid:wGrid,
+          hiddenColumns:hiddenColumns,
         });
     }
   }
   componentDidMount(){
     const wGrid=this.props.gridData.slice()
+
     const wCols=Object.keys(wGrid[0])
     wCols.map((col)=>wGrid.map((row)=>
       row[col]=this.gridTypeFormating(row[col])
     ))
+    const hiddenColumns=this.props.hiddenColumns!==undefined?
+      this.props.hiddenColumns:[];
+
 
     this.setState({
       originalGrid:wGrid.slice(),
-      cols:Object.keys(this.state.gridData.slice()[0])
+      cols:wCols,
+      hiddenColumns:hiddenColumns
     });
   }
   filterData(e){
@@ -231,7 +239,7 @@ GridComponent.defaultProps={
        'Albums':'Mezzanine',Price:'R$18.65', Stars:2.75, date:'1984-09-22', sold_out:true, rowColor:'black'}
     ],
   trueValueProps:{cssClass:'', text:true, color:''},
-  falseValueProps:{cssClass:'', text:true, color:''}
+  falseValueProps:{cssClass:'', text:false, color:''}
 }
 GridComponent.propTypes={
   gridData:PropTypes.array.isRequired,
@@ -239,13 +247,12 @@ GridComponent.propTypes={
   getRow:PropTypes.func,
   searchField:PropTypes.bool,
   cssClass:PropTypes.string,
+  hiddenColumns:PropTypes.array,
 }
 /*TODO
  * Fix:
  *   Responsiveness. On small screen, grid is overflowing
  *
- * Allow user to pass the color for each line. As a value in the Object
- *  {..color:'#FFB957'}
  * Review unnecessairy state
  * Check and format number, currency, dates and datetimes...
  *  do the same for tolltip?
