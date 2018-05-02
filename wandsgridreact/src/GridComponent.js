@@ -65,7 +65,7 @@ export class GridComponent extends React.Component{
       }
       if(value === 'true'){
         value = this.props.trueValueProps.text===true?
-          this.props.trueValueProps.text:(
+          'true':(
           <i className={this.props.trueValueProps.cssClass}
            style={{color:this.props.trueValueProps.color}}
           >
@@ -75,7 +75,7 @@ export class GridComponent extends React.Component{
       }
       if(value==='false'){
         value = this.props.falseValueProps.text===false?
-          this.props.falseValueProps.text:(
+          'false':(
           <i className={this.props.falseValueProps.cssClass}
            style={{color:this.props.falseValueProps.color}}
           >
@@ -206,8 +206,8 @@ GridComponent.defaultProps={
       {id:42,Artist:'Massive Atack','Genre':'Trip Rock',
        'Albums':'Mezzanine',Price:'R$18.65', Stars:2.75, date:'1984-09-22', sold_out:true, rowColor:'black'}
     ],
-  trueValueProps:{cssClass:'', text:'true', color:''},
-  falseValueProps:{cssClass:'', text:'true', color:''}
+  trueValueProps:{cssClass:'', text:true, color:''},
+  falseValueProps:{cssClass:'', text:false, color:''}
 }
 GridComponent.propTypes={
   gridData:PropTypes.array.isRequired,
