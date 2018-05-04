@@ -88,6 +88,7 @@ export class GridComponent extends React.Component{
   }
 
   componentWillReceiveProps(nextProps){
+    console.log('!!!!!!!!!!!!!!!!!!')
     const wGrid=nextProps.gridData.slice()
     const wCols=Object.keys(wGrid[0])
     wCols.map((col)=>wGrid.map((row)=>
@@ -103,22 +104,40 @@ export class GridComponent extends React.Component{
     }
   }
   componentDidMount(){
-    /*
-    const customCols={'Artist':'Artista'};
-    const test = this.props.gridData.map((item)=>
-      Object.keys(customCols).map((cols)=>{
-        if(Object.keys(item).indexOf(cols)!==-1){
-          const newItem = {[customCols[cols]]:item[cols], ...item}
-          delete(newItem[cols])
-          return newItem
-        }
-        return item;
-        }
-      )[0]
+    const customCols={'Artist':'Artista', 'Genre':'Gênero'};
+    const newCols = Object.keys(this.props.gridData.slice()[0])
+    Object.keys(customCols).map((key)=>{
+      const index=newCols.indexOf(key);
+      if(index!==-1){
+        newCols.splice(index, index+1,customCols[key])
+      }
+      return null;
+    })
+    const grid = this.props.gridData.slice()
+    const newGrid=[]
+    grid.map((item)=>
+      Object.keys(customCols).map((key)=>{
+        const test={}
+        Object.keys(item).map((col)=>{
+          let newKey=col;
+          if(key===col){
+            newKey=customCols[key]
+            test[customCols[key]]=item[col]
+          }
+          test[newKey]=item[col]
+          return null;
+        })
+        newGrid.push(test)
+        return null
+      }
+      )
     )
+    console.log(grid)
+    console.log(newGrid)
 
-    const wGrid=test.slice()
-    */
+
+
+    //const wGrid=test.slice()
     const wGrid=this.props.gridData.slice()
     const wCols=Object.keys(wGrid[0])
     wCols.map((col)=>wGrid.map((row)=>

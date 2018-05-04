@@ -16,7 +16,7 @@ class Index extends React.Component{
          getRowId={this.rowId}
          getRow={this.row}
          trueValueProps={{cssClass:'fa fa-check', color:'green'}}
-         hiddenColumns={['id','Stars']}
+         hiddenColumns={['sold_out','date']}
         />
       </div>
     )
