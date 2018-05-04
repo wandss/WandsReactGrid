@@ -103,22 +103,18 @@ export class GridComponent extends React.Component{
     }
   }
   componentDidMount(){
-    /*
     const customCols={'Artist':'Artista'};
-    const test = this.props.gridData.map((item)=>
-      Object.keys(customCols).map((cols)=>{
-        if(Object.keys(item).indexOf(cols)!==-1){
-          const newItem = {[customCols[cols]]:item[cols], ...item}
-          delete(newItem[cols])
-          return newItem
-        }
-        return item;
-        }
-      )[0]
-    )
 
-    const wGrid=test.slice()
-    */
+    const test=this.props.gridData.slice().map((item)=>
+      Object.keys(customCols).map((oldCol)=>{
+        const newItem = {...item,[customCols[oldCol]]:item[oldCol]}
+        return newItem
+      }
+      )
+    )
+    console.log(test)
+
+   // const wGrid=test.slice()
     const wGrid=this.props.gridData.slice()
     const wCols=Object.keys(wGrid[0])
     wCols.map((col)=>wGrid.map((row)=>
