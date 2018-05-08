@@ -89,8 +89,8 @@ export class GridComponent extends React.Component{
   componentWillReceiveProps(nextProps){
     if(nextProps.gridData!==this.props.gridData){
       const gridData=nextProps.gridData.concat();
-      const wGrid=nextProps.customColumns!==undefined?
-        this.renameColumns(gridData, nextProps.customColumns):gridData;
+      const wGrid=this.renameColumns(gridData, nextProps.renameColumns);
+      this.removeColumns(wGrid,this.props.removeColumns);
       const wCols=Object.keys(wGrid[0]);
       wCols.map((col)=>wGrid.map((row)=>
         row[col]=this.gridTypeFormating(row[col])
@@ -105,25 +105,37 @@ export class GridComponent extends React.Component{
     }
   }
   renameColumns(grid, customCols){
-    grid.forEach((item)=>
-      Object.keys(item).forEach((oldName)=>
-        Object.keys(customCols).forEach((key)=>{
-          if(key===oldName){
-            item[customCols[key]]=item[key];
-            delete(item[key]);
+    if(customCols!==undefined){
+      grid.forEach((item)=>
+        Object.keys(item).forEach((oldName)=>
+          Object.keys(customCols).forEach((key)=>{
+            if(key===oldName){
+              item[customCols[key]]=item[key];
+              delete(item[key]);
+            }
           }
-        }
+          )
         )
       )
-    )
+    }
     return(grid)
-
   }
+  removeColumns(grid, cols){
+    if(cols!==undefined){
+      grid.forEach((item)=>
+        Object.keys(item).forEach((key)=>{
+          if(cols.indexOf(key)!==-1){
+            delete(item[key])
+          }
+        })
+      )
+    }
+  }
+
   componentDidMount(){
     const gridData=this.props.gridData.concat();
-    const wGrid=this.props.customColumns!==undefined?
-      this.renameColumns(gridData, this.props.customColumns):
-      gridData;
+    const wGrid=this.renameColumns(gridData, this.props.renameColumns);
+    this.removeColumns(wGrid,this.props.removeColumns);
 
     const wCols=Object.keys(wGrid[0])
     wCols.map((col)=>wGrid.map((row)=>
@@ -131,7 +143,6 @@ export class GridComponent extends React.Component{
     ))
     const hiddenColumns=this.props.hiddenColumns!==undefined?
       this.props.hiddenColumns:[];
-
 
     this.setState({
       originalGrid:wGrid.slice(),
@@ -268,7 +279,8 @@ GridComponent.propTypes={
   searchField:PropTypes.bool,
   cssClass:PropTypes.string,
   hiddenColumns:PropTypes.array,
-  customColumns:PropTypes.object,
+  renameColumns:PropTypes.object,
+  removeColumns:PropTypes.array,
 }
 /*TODO
  * Fix:
