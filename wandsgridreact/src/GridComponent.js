@@ -86,8 +86,33 @@ export class GridComponent extends React.Component{
     }
     return value;
   }
+  renameColumns(grid, customCols){
+    let newGrid = {};
+    let test=[];
+    grid.forEach((item)=>{
+          const newItem={};
+      Object.keys(item).forEach((key)=>{
+        Object.keys(customCols).forEach((oldName)=>{
+          const value = item[key];
+          if(key===oldName){
+            newGrid[customCols[oldName]] = value;
+            newItem[customCols[oldName]] = value;
+          }
+          else{
+            newGrid[key] = value;
+            newItem[key] = value;
+          }
+        })
+          console.log(newItem)
+      })
+     // console.log(newGrid)
+    });
+    console.log(test)
+
+  }
 
   componentWillReceiveProps(nextProps){
+    console.log('!!!!!!!!!!!!!!!!!!')
     const wGrid=nextProps.gridData.slice()
     const wCols=Object.keys(wGrid[0])
     wCols.map((col)=>wGrid.map((row)=>
@@ -103,18 +128,10 @@ export class GridComponent extends React.Component{
     }
   }
   componentDidMount(){
-    const customCols={'Artist':'Artista'};
+    const customCols={'Artist':'Artista', 'Genre':'Gênero'};
+    this.renameColumns(this.props.gridData.slice(), customCols)
 
-    const test=this.props.gridData.slice().map((item)=>
-      Object.keys(customCols).map((oldCol)=>{
-        const newItem = {...item,[customCols[oldCol]]:item[oldCol]}
-        return newItem
-      }
-      )
-    )
-    console.log(test)
-
-   // const wGrid=test.slice()
+    //const wGrid=test.slice()
     const wGrid=this.props.gridData.slice()
     const wCols=Object.keys(wGrid[0])
     wCols.map((col)=>wGrid.map((row)=>
