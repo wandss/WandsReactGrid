@@ -86,53 +86,45 @@ export class GridComponent extends React.Component{
     }
     return value;
   }
-  renameColumns(grid, customCols){
-    let newGrid = {};
-    let test=[];
-    grid.forEach((item)=>{
-          const newItem={};
-      Object.keys(item).forEach((key)=>{
-        Object.keys(customCols).forEach((oldName)=>{
-          const value = item[key];
-          if(key===oldName){
-            newGrid[customCols[oldName]] = value;
-            newItem[customCols[oldName]] = value;
-          }
-          else{
-            newGrid[key] = value;
-            newItem[key] = value;
-          }
-        })
-          console.log(newItem)
-      })
-     // console.log(newGrid)
-    });
-    console.log(test)
-
-  }
-
   componentWillReceiveProps(nextProps){
-    console.log('!!!!!!!!!!!!!!!!!!')
-    const wGrid=nextProps.gridData.slice()
-    const wCols=Object.keys(wGrid[0])
-    wCols.map((col)=>wGrid.map((row)=>
-      row[col]=this.gridTypeFormating(row[col])
-    ));
-    const hiddenColumns=nextProps.hiddenColumns!==undefined?
-      this.props.hiddenColumns:[];
-    if(nextProps.gridData !== this.props.gridData){
-        this.setState({gridData:wGrid,
-          cols:wCols,originalGrid:wGrid,
-          hiddenColumns:hiddenColumns,
-        });
+    if(nextProps.gridData!==this.props.gridData){
+      const gridData=nextProps.gridData.concat();
+      const wGrid=nextProps.customColumns!==undefined?
+        this.renameColumns(gridData, nextProps.customColumns):gridData;
+      const wCols=Object.keys(wGrid[0]);
+      wCols.map((col)=>wGrid.map((row)=>
+        row[col]=this.gridTypeFormating(row[col])
+      ));
+      const hiddenColumns=nextProps.hiddenColumns!==undefined?
+        this.props.hiddenColumns:[];
+
+      this.setState({gridData:wGrid,
+        cols:wCols,originalGrid:wGrid,
+        hiddenColumns:hiddenColumns,
+      });
     }
   }
-  componentDidMount(){
-    const customCols={'Artist':'Artista', 'Genre':'Gênero'};
-    this.renameColumns(this.props.gridData.slice(), customCols)
+  renameColumns(grid, customCols){
+    grid.forEach((item)=>
+      Object.keys(item).forEach((oldName)=>
+        Object.keys(customCols).forEach((key)=>{
+          if(key===oldName){
+            item[customCols[key]]=item[key];
+            delete(item[key]);
+          }
+        }
+        )
+      )
+    )
+    return(grid)
 
-    //const wGrid=test.slice()
-    const wGrid=this.props.gridData.slice()
+  }
+  componentDidMount(){
+    const gridData=this.props.gridData.concat();
+    const wGrid=this.props.customColumns!==undefined?
+      this.renameColumns(gridData, this.props.customColumns):
+      gridData;
+
     const wCols=Object.keys(wGrid[0])
     wCols.map((col)=>wGrid.map((row)=>
       row[col]=this.gridTypeFormating(row[col])
@@ -250,17 +242,17 @@ GridComponent.defaultProps={
         sold_out:true,rowColor:'red'
       },
       {id:2,Artist:'Led Zeppelin','Genre':'Rock',
-       'Albums':'The Song remains the Same',Price:'R$59.99',Stars:-4,date:''},
+       'Albums':'The Song remains the Same',Price:'R$59.99',Stars:-4,date:'',sold_out:false},
       {id:3,Artist:'Pink Floyd','Genre':'Progressive',
-       'Albums':['The Wall','The Dark Side of the Moon'],Price:'R$49.99', Stars:4,date:''},
+       'Albums':['The Wall','The Dark Side of the Moon'],Price:'R$49.99', Stars:4,date:'',sold_out:false},
       {id:4,Artist:'Queen','Genre':'Rock',
-       'Albums':['Killer Queen'],Price:'R$59.99',Stars:2,date:''},
+       'Albums':['Killer Queen'],Price:'R$59.99',Stars:2,date:'',sold_out:false},
       {id:5,Artist:'QOTSA','Genre':'Rock',
-       'Albums':'Songs for the Deaf',Price:'R$19.99', Stars:1},
+       'Albums':'Songs for the Deaf',Price:'R$19.99', Stars:1, date:'',sold_out:false},
       {id:11,Artist:'Foo Fighters','Genre':'Rock',
-       'Albums':'One By One',Price:'R$36.99',Stars:-1,date:'', rowColor:'#049'},
+       'Albums':'One By One',Price:'R$36.99',Stars:-1,date:'',sold_out:false, rowColor:'#049'},
       {id:7,Artist:'Steve Vai','Genre':'Instrumental',
-       'Albums':'The 7Th Song',Price:'R$21', Stars:-2,date:'', rowColor:'magenta'},
+       'Albums':'The 7Th Song',Price:'R$21', Stars:-2,date:'',sold_out:false, rowColor:'magenta'},
       {id:77,Artist:'Portishead','Genre':'Trip Rock',
         'Albums':'Roseland NYC live',Price:'R$33.99', Stars:3, date:'', sold_out:true, rowColor:'pink'},
       {id:42,Artist:'Massive Atack','Genre':'Trip Rock',
@@ -276,11 +268,14 @@ GridComponent.propTypes={
   searchField:PropTypes.bool,
   cssClass:PropTypes.string,
   hiddenColumns:PropTypes.array,
+  customColumns:PropTypes.object,
 }
 /*TODO
  * Fix:
+ *   When clicked on an item, the date are changing.
  *   Responsiveness. On small screen, grid is overflowing
  *
+ * Allow to also remove columns, by passing column names or index?
  * Review unnecessairy state
  * Check and format number, currency, dates and datetimes...
  *  do the same for tolltip?
@@ -289,4 +284,6 @@ GridComponent.propTypes={
  * ADD Icons for sorting
  * Creates Method to Hide Column??
  * Create a Component to show help on usage.
+ *
+ *
  */
