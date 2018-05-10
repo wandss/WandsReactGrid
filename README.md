@@ -113,12 +113,12 @@ const wontAppear=['id','year']
 ```
 **Result:**
 
-| movie | genre
-| ----- |
-| Monty Python and the Holy Grail | Comedy
+| movie | genre | 
+| ----- | ----- |
+| Monty Python and the Holy Grail | Comedy|
 | Pulp Fiction | Drama, Crime|
-| The Green Mile | Crime, Drama, Fantasy, Mistery
-| Requiem for a Dream | Drama
+| The Green Mile | Crime, Drama, Fantasy, Mistery|
+| Requiem for a Dream | Drama |
 
 
 ***If a column has been renamed, the array should contain the new name.***
