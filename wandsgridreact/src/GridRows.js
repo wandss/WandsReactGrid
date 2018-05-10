@@ -29,12 +29,13 @@ export class GridRows extends React.Component{
     return value
   }
   render(){
+    const hiddenColumns=this.props.hiddenColumns;
     const tdStyle={
       cursor:this.props.getRowId||this.props.getRow?
       'pointer':'default' };
     const keys = Object.keys(this.props.row);
     const row = keys.map((key,index)=>
-      key!=='rowColor'?(
+      key!=='rowColor'&&hiddenColumns.indexOf(key)===-1?(
         <td key={index} onClick={this.handleClick.bind(this)}
          style={{...tdStyle,
              color:this.isValueNegative(this.props.row[key])?'red':
@@ -59,4 +60,8 @@ GridRows.propTypes={
   row:PropTypes.object,
   getRowId:PropTypes.func,
   getRow:PropTypes.func,
+  hiddenColumns:PropTypes.array,
+}
+GridRows.defaultProps={
+  hiddenColumns:['rowColor']
 }
