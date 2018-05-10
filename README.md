@@ -18,7 +18,7 @@ personal projects.*
 11. Use css classes.
 
 ### Usage:
-1. The **GridComponent** expects a **"gridData"** property, which is an array with objects, like so:
+#### 1. The **GridComponent** expects a **"gridData"** property, which is an array with objects, like so:
 ```javascript
 const movies = [{id:1, movie:"Monty Python and the Holy Grail", year:1975},
                 {id:2, movie:"Pulp Fiction", year:1994},
@@ -37,10 +37,10 @@ id | movie | year
 2 | Pulp Fiction | 1994
 3 | The Green Mile | 1999
 
-2. Sorting data
+#### 2. Sorting data
 *By clickng on each column name, the data will be sorted.*
 
-3. Filtering
+#### 3. Filtering
 
 *To filter data in the grid, pass **searchField** as property:*
 
@@ -53,7 +53,8 @@ An HTML *input* field will be rendered.
 
 *YAY!!! you can use Regular Expression (RegEXP)*.
 
-4. Get specific data
+#### 4. Get specific data.
+
 *Pass the **getRow** property as a function callback to retrive an object with the data for the clicked row*
 First: Create the function.
 ```javascript
@@ -68,7 +69,7 @@ Second: Pass the created function as a property:
 ```javascript
 {id:2, movie:"Pulp Fiction", year:1994}
 ```
-5. Renaming column lable.
+#### 5. Renaming column lable.
 Create an object with the actual name as *key* and the new name as *value*:
 ```javascript
 const newColumNames{movie:"Movie Names", year:"Year"}
@@ -82,11 +83,11 @@ Now pass this object as the value for the *renameColumns* property.
 id | Movie Names | Year
 -- | ----------- | ----
 
-6. Hiding Columns:
+#### 6. Hiding Columns:
 After the component is rendered, **double click** the column name, or click the icon, to "remove it" from the grid.
 A button with the column name will appear, right above the grid. Click on the button to show the column again.
 
-To hide columns before the component is rendered, pass an array with the columns names to be hidden as a value for the
+To hide columns before the component is rendered, pass an array with column's names to be hidden as a value for the
 property **hiddenColumns**
 
 ```javascript
@@ -96,8 +97,23 @@ const hidden=['id', 'year']
 <GridComponent gridData={movies} hiddenColumns={hiden}/>
 ```
 ***For the above sample, the buttons to show the columns will also be hidden. Hide any column to display all hidden buttons***
+***It is still possible to filter data for hidden columns***
 
-7. Removing columns:
-By passing an array with "column names" as values for the property **removeColumns**
+#### 7. Removing columns:
+By passing an array with "column names" as values for the property **"removeColumns"** will cause these columns to not
+be rendered.
+```javascript
+const wontAppear=['id','year']
+```
+```jsx
+<GridComponent gridData={movies} removeColumns={wontAppear}/>
+```
+**Result:**
 
-    
+|movie| 
+|-----|
+|Monty Python and the Holy Grail|
+|Pulp Fiction|
+|The Green Mile|
+
+***If a column has been renamed, the array should contain the new name.***
