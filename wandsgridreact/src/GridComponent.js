@@ -204,7 +204,7 @@ export class GridComponent extends React.Component{
         />
     );
     const rows = this.state.gridData.map((row, index)=>
-        <GridRows key={row.id} row={row}
+        <GridRows key={index} row={row}
           getRowId={this.props.getRowId}
           getRow={this.props.getRow}
           rowColor={row.rowColor!==undefined?
