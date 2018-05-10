@@ -9,6 +9,7 @@ export class GridComponent extends React.Component{
     super(props);
     this.state={sortedBy:'', gridData:this.props.gridData,
       filter:"", originalGrid:[], cols:[],hiddenColumns:[],
+      showButtons:false,
     };
     this.headerSort = this.headerSort.bind(this);
   }
@@ -191,7 +192,7 @@ export class GridComponent extends React.Component{
     else{
       hidden=hidden.filter((col)=>col!==e.target.id);
     }
-    this.setState({hiddenColumns:hidden})
+    this.setState({hiddenColumns:hidden, showButtons:true})
   }
   render(){
     const cols = this.state.cols
@@ -217,7 +218,7 @@ export class GridComponent extends React.Component{
        value={this.state.filter}
        onChange={this.filterData.bind(this)}
       />):null;
-    const showColumns=this.state.hiddenColumns.length>0?(
+    const showColumns=this.state.hiddenColumns.length>0&&this.state.showButtons?(
       this.state.hiddenColumns.map((col)=>
         <button key={col} id={col}
          onClick={this.toggleColumns.bind(this)}
