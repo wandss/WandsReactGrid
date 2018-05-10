@@ -117,3 +117,14 @@ const wontAppear=['id','year']
 |The Green Mile|
 
 ***If a column has been renamed, the array should contain the new name.***
+
+## Summary: 
+### Component's Props:
+*  gridData: A Required array with objects.
+*  searchField: An optional boolean type.
+*  getRow: An optional function.
+*  renameColumns: An optional object containing "original column name" as *key* and a new name as *value*.
+*  hiddenColumns: An optional array with the column's names to be hidden.
+*  removeColumns: An optional array with the columns'names that won't be rendered.
+
+
