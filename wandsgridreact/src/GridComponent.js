@@ -285,18 +285,17 @@ GridComponent.propTypes={
 }
 /*TODO
  * Fix:
- *   When clicked on an item, the date are changing.
  *   Responsiveness. On small screen, grid is overflowing
  *
- * Allow to also remove columns, by passing column names or index?
+ *
  * Review unnecessairy state
  * Check and format number, currency, dates and datetimes...
- *  do the same for tolltip?
  * ADD Footer to GRID
+ * ADD method to sum values and show at the Footer
  * ADD Pagination and Navigation
  * ADD Icons for sorting
- * Creates Method to Hide Column??
  * Create a Component to show help on usage.
- *
- *
+ * ADD method to 'capitalize' column names?
+ * ADD method to 'auto' rename column names like:
+ *  "watched_movies" to "Watched Movies", "Artist_Name" to "Artist Name" ...
  */

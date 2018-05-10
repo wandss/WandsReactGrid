@@ -1,7 +1,7 @@
 # WandsReactGrid
 Just a (yeat) simple React Grid Component.
 
-*This is a simple ReactJS Grid component that I'm sharing. Despite been so simple (yet), I'm already applying it to my 
+*This is a simple ReactJS Grid component that I'm sharing. Despite been so simple (yet), I'm already applying it to my
 personal projects.*
 
 ### Functionalities:
@@ -110,7 +110,7 @@ const wontAppear=['id','year']
 ```
 **Result:**
 
-|movie| 
+|movie|
 |-----|
 |Monty Python and the Holy Grail|
 |Pulp Fiction|
@@ -118,7 +118,7 @@ const wontAppear=['id','year']
 
 ***If a column has been renamed, the array should contain the new name.***
 
-## Summary: 
+## Summary:
 ### Component's Props:
 *  gridData: A Required array with objects.
 *  searchField: An optional boolean type.
