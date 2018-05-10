@@ -16,14 +16,16 @@ personal projects.*
 9. Sets a specific color for each line (row), in the grid.
 10. Replaces **boolean** values by glyphicons if required.
 11. Use css classes.
+12. Auto format array values as comma separated.
 
 ### Usage:
 #### 1. The **GridComponent** expects a **"gridData"** property, which is an array with objects, like so:
 ```javascript
-const movies = [{id:1, movie:"Monty Python and the Holy Grail", year:1975},
-                {id:2, movie:"Pulp Fiction", year:1994},
-                {id:3, movie:"The Green Mile", year:1999},
-                ];
+const movies = [{id:1, movie:"Monty Python and the Holy Grail", year:1975, genre:'Comedy'},
+                {id:2, movie:"Pulp Fiction", year:1994, genre:['Drama', 'Crime']},
+                {id:3, movie:"The Green Mile", year:1999,genre:['Crime','Drama','Fantasy','Mistery']},
+                {id:4, movie:"Requiem For a Dream", year:1999, genre:'Drama'},
+]
 ```
   * Passing the array as property to the component...
 ```jsx
@@ -31,11 +33,12 @@ const movies = [{id:1, movie:"Monty Python and the Holy Grail", year:1975},
 ```
 ... will render something like:
 
-id | movie | year
--- | ----- | ----
-1 | Monty Python and the Holy Grail | 1975
-2 | Pulp Fiction | 1994
-3 | The Green Mile | 1999
+id | movie | year | genre
+-- | ----- | ---- | -----
+1 | Monty Python and the Holy Grail | 1975 | Comedy
+2 | Pulp Fiction | 1994 | Drama, Crime
+3 | The Green Mile | 1999 | Crime, Drama, Fantasy, Mistery
+4 | Requiem for a Dream | 1999 | Drama
 
 #### 2. Sorting data
 *By clickng on each column name, the data will be sorted.*
@@ -80,8 +83,8 @@ Now pass this object as the value for the *renameColumns* property.
 ```
 **Result**
 
-id | Movie Names | Year
--- | ----------- | ----
+id | Movie Names | Year | genre
+-- | ----------- | ---- | -----
 
 #### 6. Hiding Columns:
 After the component is rendered, **double click** the column name, or click the icon, to "remove it" from the grid.
@@ -110,11 +113,13 @@ const wontAppear=['id','year']
 ```
 **Result:**
 
-|movie|
-|-----|
-|Monty Python and the Holy Grail|
-|Pulp Fiction|
-|The Green Mile|
+| movie | genre
+| ----- |
+| Monty Python and the Holy Grail | Comedy
+| Pulp Fiction | Drama, Crime|
+| The Green Mile | Crime, Drama, Fantasy, Mistery
+| Requiem for a Dream | Drama
+
 
 ***If a column has been renamed, the array should contain the new name.***
 
