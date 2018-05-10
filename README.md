@@ -5,16 +5,17 @@ Just a (yeat) simple React Grid Component.
 personal projects.*
 
 ### Functionalities:
-1. Auto creating lable for columns based on keys for the provide javascript object.
-2. Sorting items.
+1. Auto creates lable for columns, based on keys for the provide javascript object.
+2. Sort items.
 3. Filter items. *(Possbile to use RegExp)*
 4. Get a specific row data.
-5. Rename columns lables.
-6. Remove columns.
-7. Hide Columns.
+5. Rename column's lable.
+6. Hide columns.
+7. Remove columns.
 8. Tries to format values like, datetime and numbers to the browsers locale.
 9. Sets a specific color for each line (row), in the grid.
-10. Replaces **boolean** values by glyphicons when required.
+10. Replaces **boolean** values by glyphicons if required.
+11. Use css classes.
 
 ### Usage:
 1. The **GridComponent** expects a **"gridData"** property, which is an array with objects, like so:
@@ -24,11 +25,12 @@ const movies = [{id:1, movie:"Monty Python and the Holy Grail", year:1975},
                 {id:3, movie:"The Green Mile", year:1999},
                 ];
 ```
-  * Passing the array as property to the component.
+  * Passing the array as property to the component...
 ```jsx
 <GridComponent gridData={movies} />
 ```
-#### Tthat will render something like:
+... will render something like:
+
 id | movie | year
 -- | ----- | ----
 1 | Monty Python and the Holy Grail | 1975
@@ -40,14 +42,16 @@ id | movie | year
 
 3. Filtering
 
-*To filter data in the grid, pass the **searchField** as property:*
+*To filter data in the grid, pass **searchField** as property:*
 
 ```jsx
 <GridComponent gridData={movies} searchField />
 ```
-An Html input field will be rendered.
+An HTML *input* field will be rendered.
+
 *The filtering is case insentive.*
-*Yep you can use Regular Expression *(RegEXP)*.
+
+*YAY!!! you can use Regular Expression (RegEXP)*.
 
 4. Get specific data
 *Pass the **getRow** property as a function callback to retrive an object with the data for the clicked row*
@@ -73,6 +77,27 @@ Now pass this object as the value for the *renameColumns* property.
 ```jsx
 <GridComponent gridData={movies} renameColumns={newColumnNames}/>
 ```
+**Result**
 
+id | Movie Names | Year
+-- | ----------- | ----
+
+6. Hiding Columns:
+After the component is rendered, **double click** the column name, or click the icon, to "remove it" from the grid.
+A button with the column name will appear, right above the grid. Click on the button to show the column again.
+
+To hide columns before the component is rendered, pass an array with the columns names to be hidden as a value for the
+property **hiddenColumns**
+
+```javascript
+const hidden=['id', 'year']
+```
+```jsx
+<GridComponent gridData={movies} hiddenColumns={hiden}/>
+```
+***For the above sample, the buttons to show the columns will also be hidden. Hide any column to display all hidden buttons***
+
+7. Removing columns:
+By passing an array with "column names" as values for the property **removeColumns**
 
     
