@@ -16,12 +16,9 @@ class Index extends React.Component{
          getRowId={this.rowId}
          getRow={this.row}
          trueValueProps={{cssClass:'fa fa-check', color:'green'}}
-<<<<<<< HEAD
-=======
          hiddenColumns={['sold_out','id']}
          renameColumns={{'Price':'Preço','Artist':'Artista', 'Genre':'Gênero', 'Stars':'Rank'}}
          removeColumns={['Rank', 'date']}
->>>>>>> hideColumns
         />
       </div>
     )
