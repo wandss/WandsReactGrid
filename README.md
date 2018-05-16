@@ -159,11 +159,11 @@ These, as already shown before, will be "joined" and rendered as:
 
 ## Summary:
 ### Component's Props:
-*  gridData: A Required array with objects.
-*  searchField: An optional boolean type.
-*  getRow: An optional function.
-*  renameColumns: An optional object containing "original column name" as *key* and a new name as *value*.
-*  hiddenColumns: An optional array with the column's names to be hidden.
-*  removeColumns: An optional array with the columns'names that won't be rendered.
+*  **gridData:** A Required array with objects.
+*  **searchField:** An optional boolean type.
+*  **getRow:** An optional function.
+*  **renameColumns:** An optional object containing "original column name" as *key* and a new name as *value*.
+*  **hiddenColumns:** An optional array with the column's names to be hidden.
+*  **removeColumns:** An optional array with the columns'names that won't be rendered.
 
 
