@@ -60,6 +60,7 @@ An HTML *input* field will be rendered.
 #### 4. Get specific data.
 
 *Pass the **getRow** property as a function callback to retrieve an object with the data for the clicked row*
+
 First: Create the function.
 ```javascript
 const getItem = function(row){console.log(row)};
@@ -68,7 +69,8 @@ Second: Pass the created function as a property:
 ```jsx
 <GridComponent gridData={movies} getRow={getItem}/>
 ```
-*Now when clicking over any row, that specific row data will be "retrived":*
+*Now when clicking over any row, that specific row data will be "retrieved":*
+
 **Result**
 ```javascript
 {id:2, movie:"Pulp Fiction", year:1994}
