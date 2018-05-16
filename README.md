@@ -14,9 +14,10 @@ personal projects.*
 7. Remove columns.
 8. Tries to format values like, datetime and numbers to the browsers locale.
 9. Sets a specific color for each line (row), in the grid.
-10. Replaces **boolean** values by glyphicons if required.
-11. Use css classes.
-12. Auto format array values as comma separated.
+10. Auto format array values as comma separated.
+11. Replaces **boolean** values by glyphicons if required.
+12. Use css classes.
+
 
 ### Usage:
 #### 1. The **GridComponent** expects a **"gridData"** property, which is an array with objects, like so:
@@ -122,6 +123,37 @@ const wontAppear=['id','year']
 
 
 ***If a column has been renamed, the array should contain the new name.***
+
+#### 8. Try to Format values (to fix):
+
+Some values will be formated to the borwser's locale. Like numbers dates and currencies.
+If a value has the simbol "$" before a number, this number will be formated to browser's locale.
+When values can be converted into a javascript Date object, this date will also be formated according to browser's locale.
+
+*Right now some issues has been dected*
+
+### 9 Defining colors for lines (rows).
+
+Is possible to pass the property **"rowColor"** as a key value pair, within the array with objects.
+This key won't be rendered at the grid and will only be used to define the text color for that particular row.
+
+```javascript
+const colorfullRows = [{id:1, movie:"Monty Python and the Holy Grail", year:1975, genre:'Comedy', rowColor:'green'},
+                {id:2, movie:"Pulp Fiction", year:1994, genre:['Drama', 'Crime']},
+                {id:3, movie:"The Green Mile", year:1999,genre:['Crime','Drama','Fantasy','Mistery']},
+                {id:4, movie:"Requiem For a Dream", year:1999, genre:'Drama', rowColor:'#AF4539'},
+]
+```
+The above example will render a Grid with the first line text color's set to green, and the last a dark red.
+All other lines will keep their original colors.
+
+#### 10 Auto format array as comma separated values.
+For the main "movies" array example described here, the values for genre keys are, sometimes represented as an array like:
+**['Drama', 'Crime']** and **['Crime','Drama','Fantasy','Mistery']**.
+
+These, as already shown before, will be "joined" and rendered as:
+**Drama, Crime** and **Crime, Drama, Fantasy, Mistery**
+
 
 ## Summary:
 ### Component's Props:
