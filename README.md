@@ -1,11 +1,11 @@
 # WandsReactGrid
 Just a (yeat) simple React Grid Component.
 
-*This is a simple ReactJS Grid component that I'm sharing. Despite been so simple (yet), I'm already applying it to my
+*This is a simple ReactJS Grid component that I'm sharing. Despite been so simple (yet), I'm already fully applying it to my
 personal projects.*
 
 ### Functionalities:
-1. Auto creates lable for columns, based on keys for the provide javascript object.
+1. Auto creates lable for columns, based on keys for the provided javascript object.
 2. Sort items.
 3. Filter items. *(Possbile to use RegExp)*
 4. Get a specific row data.
