@@ -59,7 +59,7 @@ An HTML *input* field will be rendered.
 
 #### 4. Get specific data.
 
-*Pass the **getRow** property as a function callback to retrive an object with the data for the clicked row*
+*Pass the **getRow** property as a function callback to retrieve an object with the data for the clicked row*
 First: Create the function.
 ```javascript
 const getItem = function(row){console.log(row)};
