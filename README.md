@@ -55,7 +55,7 @@ An HTML *input* field will be rendered.
 
 *The filtering is case insentive.*
 
-*YAY!!! you can use Regular Expression (RegEXP)*.
+*And guess what??? Is possible to use Regular Expression (RegEXP)*.
 
 #### 4. Get specific data.
 
