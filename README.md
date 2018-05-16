@@ -160,6 +160,7 @@ These, as already shown before, will be "joined" and rendered as:
 ## Summary:
 ### Component's Props:
 *  **gridData:** A Required array with objects.
+   * **rowColor:'blue':** An object item that defined the text color, for that particular object.
 *  **searchField:** An optional boolean type.
 *  **getRow:** An optional function.
 *  **renameColumns:** An optional object containing "original column name" as *key* and a new name as *value*.
