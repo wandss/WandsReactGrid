@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import {GridColumns} from './GridColumns';
 import {GridRows} from './GridRows';
 import {Input} from './Input';
+import {Paginator} from './PaginationComponent';
+import {PageSizes} from './PageSizes';
 
 export class GridComponent extends React.Component{
   constructor(props){
@@ -194,6 +196,13 @@ export class GridComponent extends React.Component{
     }
     this.setState({hiddenColumns:hidden, showButtons:true})
   }
+  getPageNumber(page){
+    console.log(page)
+  }
+  setGridSize(pageSize){
+    const gridData = this.state.originalGrid.slice(0,pageSize);
+    this.setState({gridData:gridData});
+  }
   render(){
     const cols = this.state.cols
     const header = cols.map((item, index)=>
@@ -232,6 +241,7 @@ export class GridComponent extends React.Component{
       <div>
       {input}
       {showColumns}
+      <PageSizes getPageSize={this.setGridSize.bind(this)}/>
         <table className={"table "+this.props.cssClass}>
           <thead>
             <tr>
@@ -242,6 +252,7 @@ export class GridComponent extends React.Component{
             {rows}
           </tbody>
         </table>
+        <Paginator getPage={this.getPageNumber}/>
       </div>
     )
   }
