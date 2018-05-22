@@ -1,7 +1,7 @@
 import React from 'react';
 
 export function Paginator(props){
-  const pages = 23;
+  const pages = props.pages;
   function handleClick(e){
     props.getPage(e.target.id)
   }

@@ -11,7 +11,7 @@ export class GridComponent extends React.Component{
     super(props);
     this.state={sortedBy:'', gridData:this.props.gridData,
       filter:"", originalGrid:[], cols:[],hiddenColumns:[],
-      showButtons:false,
+      showButtons:false, pages:1,
     };
     this.headerSort = this.headerSort.bind(this);
   }
@@ -148,9 +148,9 @@ export class GridComponent extends React.Component{
       this.props.hiddenColumns:[];
 
     this.setState({
-      originalGrid:wGrid.slice(),
-      cols:wCols,
-      hiddenColumns:hiddenColumns
+      originalGrid:wGrid.slice(),cols:wCols,
+      hiddenColumns:hiddenColumns,
+      itemPerPage:wGrid.Length,
     });
   }
   filterData(e){
@@ -197,11 +197,22 @@ export class GridComponent extends React.Component{
     this.setState({hiddenColumns:hidden, showButtons:true})
   }
   getPageNumber(page){
-    console.log(page)
+    const pageSize=Math.ceil(
+      Number(this.state.originalGrid.length)/Number(
+      this.state.pages))
+    const starts = Number(page);
+    const ends = Number(starts)+Number(pageSize)
+    console.log(starts)
+    console.log(ends+1)
+    const gridData = this.state.originalGrid.slice(starts,
+      ends)
+    this.setState({gridData:gridData})
   }
   setGridSize(pageSize){
     const gridData = this.state.originalGrid.slice(0,pageSize);
-    this.setState({gridData:gridData});
+    const pages=Math.ceil(this.state.originalGrid.length/pageSize)
+
+    this.setState({gridData:gridData, pages:pages});
   }
   render(){
     const cols = this.state.cols
@@ -252,7 +263,10 @@ export class GridComponent extends React.Component{
             {rows}
           </tbody>
         </table>
-        <Paginator getPage={this.getPageNumber}/>
+        <Paginator getPage={this.getPageNumber.bind(this)}
+         pages={this.state.pages}
+         gridSize={this.state.originalGrid.length}
+        />
       </div>
     )
   }
