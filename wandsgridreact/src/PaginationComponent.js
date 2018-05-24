@@ -6,7 +6,7 @@ export function Paginator(props){
     props.getPage(e.target.id)
   }
   function createPagesArray(count){
-    const size = count>10?10:count;
+    const size = count
     const array = []
     for(let i=1;i<=size; i++){
       array.push(i)
@@ -24,3 +24,7 @@ export function Paginator(props){
     </div>
   );
 }
+/*TODO:
+ * If total pages is bigger than 10:
+ *   add navigation buttons "<< >>"
+ */

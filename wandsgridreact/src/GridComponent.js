@@ -199,13 +199,13 @@ export class GridComponent extends React.Component{
   getPageNumber(page){
     const pageSize=Math.ceil(
       Number(this.state.originalGrid.length)/Number(
-      this.state.pages))
-    const starts = Number(page);
-    const ends = Number(starts)+Number(pageSize)
-    console.log(starts)
-    console.log(ends+1)
-    const gridData = this.state.originalGrid.slice(starts,
-      ends)
+      this.state.pages));
+    const starts = (Number(page)-1)*pageSize;
+    const ends=starts+pageSize;
+    //console.log(starts)
+    console.log(pageSize)
+    console.log(ends)
+    const gridData = this.state.originalGrid.slice(starts, ends)
     this.setState({gridData:gridData})
   }
   setGridSize(pageSize){
@@ -252,7 +252,9 @@ export class GridComponent extends React.Component{
       <div>
       {input}
       {showColumns}
-      <PageSizes getPageSize={this.setGridSize.bind(this)}/>
+      <PageSizes getPageSize={this.setGridSize.bind(this)}
+       pageSizes={[1,2,10,25,50,100]}
+      />
         <table className={"table "+this.props.cssClass}>
           <thead>
             <tr>
