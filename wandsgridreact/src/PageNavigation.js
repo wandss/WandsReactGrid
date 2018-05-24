@@ -1,12 +1,13 @@
 import React from 'react';
 
-export function Paginator(props){
+export function PageNavigation(props){
   const pages = props.pages;
   function handleClick(e){
     props.getPage(e.target.id)
   }
   function createPagesArray(count){
-    const size = count
+    //const size = count>10?10:count;
+    const size = count;
     const array = []
     for(let i=1;i<=size; i++){
       array.push(i)
@@ -25,6 +26,8 @@ export function Paginator(props){
   );
 }
 /*TODO:
- * If total pages is bigger than 10:
- *   add navigation buttons "<< >>"
+ * When size is bigger than 10 create buttons
+ * to navigate like "<<|>>" or "Prev | Next"
+ * in other words.... paginate the array
+ * adds css for clicked buttons.
  */

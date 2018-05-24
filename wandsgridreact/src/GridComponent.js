@@ -3,15 +3,17 @@ import PropTypes from 'prop-types';
 import {GridColumns} from './GridColumns';
 import {GridRows} from './GridRows';
 import {Input} from './Input';
-import {Paginator} from './PaginationComponent';
-import {PageSizes} from './PageSizes';
+import {PageSizeSelector} from './PageSizeSelector';
+import {PageNavigation} from './PageNavigation';
+
 
 export class GridComponent extends React.Component{
   constructor(props){
     super(props);
     this.state={sortedBy:'', gridData:this.props.gridData,
-      filter:"", originalGrid:[], cols:[],hiddenColumns:[],
-      showButtons:false, pages:1,
+      filter:"", originalGrid:this.props.gridData,
+      cols:[],hiddenColumns:[],
+      showButtons:false, pages:1,pageSize:this.props.gridData.length,
     };
     this.headerSort = this.headerSort.bind(this);
   }
@@ -101,8 +103,9 @@ export class GridComponent extends React.Component{
       const hiddenColumns=nextProps.hiddenColumns!==undefined?
         this.props.hiddenColumns:[];
 
-      this.setState({gridData:wGrid,
-        cols:wCols,originalGrid:wGrid,
+      this.setState({gridData:wGrid.slice(),
+        cols:wCols,
+        //originalGrid:wGrid,
         hiddenColumns:hiddenColumns,
       });
     }
@@ -148,9 +151,9 @@ export class GridComponent extends React.Component{
       this.props.hiddenColumns:[];
 
     this.setState({
-      originalGrid:wGrid.slice(),cols:wCols,
+      //originalGrid:wGrid.slice(),
+      cols:wCols,
       hiddenColumns:hiddenColumns,
-      itemPerPage:wGrid.Length,
     });
   }
   filterData(e){
@@ -197,22 +200,16 @@ export class GridComponent extends React.Component{
     this.setState({hiddenColumns:hidden, showButtons:true})
   }
   getPageNumber(page){
-    const pageSize=Math.ceil(
-      Number(this.state.originalGrid.length)/Number(
-      this.state.pages));
-    const starts = (Number(page)-1)*pageSize;
-    const ends=starts+pageSize;
-    //console.log(starts)
-    console.log(pageSize)
-    console.log(ends)
+    const pageSize=Number(this.state.pageSize);
+    const starts = Number((Number(page)-1)*pageSize);
+    const ends = starts+pageSize;
     const gridData = this.state.originalGrid.slice(starts, ends)
     this.setState({gridData:gridData})
   }
   setGridSize(pageSize){
     const gridData = this.state.originalGrid.slice(0,pageSize);
     const pages=Math.ceil(this.state.originalGrid.length/pageSize)
-
-    this.setState({gridData:gridData, pages:pages});
+    this.setState({gridData:gridData, pages:pages, pageSize:pageSize});
   }
   render(){
     const cols = this.state.cols
@@ -252,8 +249,8 @@ export class GridComponent extends React.Component{
       <div>
       {input}
       {showColumns}
-      <PageSizes getPageSize={this.setGridSize.bind(this)}
-       pageSizes={[1,2,10,25,50,100]}
+      <PageSizeSelector getPageSize={this.setGridSize.bind(this)}
+       pageSizes={[1,2,3,5,7,8,10,25,50,100]}
       />
         <table className={"table "+this.props.cssClass}>
           <thead>
@@ -265,7 +262,7 @@ export class GridComponent extends React.Component{
             {rows}
           </tbody>
         </table>
-        <Paginator getPage={this.getPageNumber.bind(this)}
+        <PageNavigation getPage={this.getPageNumber.bind(this)}
          pages={this.state.pages}
          gridSize={this.state.originalGrid.length}
         />
@@ -311,6 +308,8 @@ GridComponent.propTypes={
   removeColumns:PropTypes.array,
 }
 /*TODO
+ * Initialize the GridSize value with a prop
+ *  this value will also be used at PaginationComponent
  * Fix:
  *   Responsiveness. On small screen, grid is overflowing
  *
