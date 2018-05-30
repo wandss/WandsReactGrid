@@ -20,34 +20,36 @@ export class PageNavigation extends React.Component{
     }
     this.setState({btnsArray:btnsArray, fullArray:fullArray})
   }
+  navigate(btnValue){
+    const navigation={btns:this.state.btnsArray,page:btnValue};
+    if(btnValue==='>>'){
+      const starts = navigation.btns[navigation.btns.length-2];
+      navigation.btns=this.state.fullArray.slice(starts, starts+5);
+
+      if(navigation.btns[navigation.btns.length-1] < this.state.totalPages){
+        navigation.btns.push('>>');
+      }
+      navigation.btns.unshift('<<');
+      navigation.page=starts+1;
+    }
+    else if(btnValue==='<<'){
+      const ends = navigation.btns[1]-1;
+      navigation.btns=this.state.fullArray.slice(ends-5, ends);
+      if(navigation.btns[navigation.btns.length-1]){
+        navigation.btns.push('>>');
+      }
+      if(navigation.btns[0]!==1){
+        navigation.btns.unshift('<<');
+      }
+      navigation.page=ends;
+    }
+    return navigation;
+  }
   handleClick(e){
     if(this.state.activePage.toString()!==e.target.id.toString()){
-      let goToPage=e.target.id;
-      let btnsArray=this.state.btnsArray.slice();
-      if(e.target.id==='>>'){
-        const starts = btnsArray[btnsArray.length-2]
-        btnsArray=this.state.fullArray.slice(starts, starts+5)
-
-        if(btnsArray[btnsArray.length-1] < this.state.totalPages){
-          btnsArray.push('>>')
-        }
-
-        btnsArray.unshift('<<');
-        goToPage=starts+1
-      }
-      else if(e.target.id==='<<'){
-        const ends = btnsArray[1]-1;
-        btnsArray=this.state.fullArray.slice(ends-5, ends)
-        if(btnsArray[btnsArray.length-1]){
-          btnsArray.push('>>');
-        }
-        if(btnsArray[0]!==1){
-          btnsArray.unshift('<<');
-        }
-        goToPage=ends;
-      }
-      this.setState({activePage:goToPage, btnsArray:btnsArray})
-      this.props.getPage(goToPage)
+      const navigation = this.navigate(e.target.id);
+      this.setState({activePage:navigation.page, btnsArray:navigation.btns});
+      this.props.getPage(navigation.page);
     }
   }
   componentDidMount(){
@@ -66,8 +68,20 @@ export class PageNavigation extends React.Component{
     }
   }
   render(){
+    function setStyle(activePage, btn){
+      const style={color:activePage.toString()===btn.toString()?'blue':'',
+        fontSize:activePage.toString()===btn.toString()?'1.6rem':'',
+        fontWeigth:activePage.toString()===btn.toString()?'bold':'',
+        transition:'all ease 0.3s',
+      };
+      return style;
+    }
+    const btnStyle={outline:'none'}
     const btns=this.state.btnsArray.map((btn)=>
-      <button onClick={this.handleClick.bind(this)} key={btn} id={btn}>
+      <button onClick={this.handleClick.bind(this)}
+       key={btn} id={btn}
+       style={{...setStyle(this.state.activePage, btn), ...btnStyle}}
+      >
         {btn}
       </button>
     );
@@ -80,9 +94,7 @@ export class PageNavigation extends React.Component{
 }
 /*TODO:
  * Create a button to go to the last and first pages "|< >|"
- * Move some logics from handleclick to a new function
- *
- * Change the active page button's collor
+ * Customize button style
  * Add Effects (transition)
  * Add PropTypes
  *
