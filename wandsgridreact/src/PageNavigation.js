@@ -4,8 +4,7 @@ export class PageNavigation extends React.Component{
   constructor(props){
     super(props);
     this.state={totalPages:this.props.pages, btnsArray:[], fullArray:[],
-      actualPage:1
-    };
+      activePage:1};
     this.createPagesArray=this.createPagesArray.bind(this);
   }
   createPagesArray(){
@@ -22,25 +21,33 @@ export class PageNavigation extends React.Component{
     this.setState({btnsArray:btnsArray, fullArray:fullArray})
   }
   handleClick(e){
-    const actualPage = this.state.actualPage;
-    if(e.target.id!==actualPage){
+    if(this.state.activePage.toString()!==e.target.id.toString()){
+      let goToPage=e.target.id;
+      let btnsArray=this.state.btnsArray.slice();
       if(e.target.id==='>>'){
-        const starts = this.state.btnsArray[this.state.btnsArray.length-2]
-        let btnsArray=this.state.fullArray.slice(starts, starts+5)
+        const starts = btnsArray[btnsArray.length-2]
+        btnsArray=this.state.fullArray.slice(starts, starts+5)
 
         if(btnsArray[btnsArray.length-1] < this.state.totalPages){
           btnsArray.push('>>')
         }
 
         btnsArray.unshift('<<');
-        this.setState({actualPage:this.state.btnsArray.length,
-          btnsArray:btnsArray})
-        this.props.getPage(starts+1)
+        goToPage=starts+1
       }
-      else{
-        this.setState({actualPage:actualPage});
-        this.props.getPage(e.target.id)
+      else if(e.target.id==='<<'){
+        const ends = btnsArray[1]-1;
+        btnsArray=this.state.fullArray.slice(ends-5, ends)
+        if(btnsArray[btnsArray.length-1]){
+          btnsArray.push('>>');
+        }
+        if(btnsArray[0]!==1){
+          btnsArray.unshift('<<');
+        }
+        goToPage=ends;
       }
+      this.setState({activePage:goToPage, btnsArray:btnsArray})
+      this.props.getPage(goToPage)
     }
   }
   componentDidMount(){
@@ -72,13 +79,11 @@ export class PageNavigation extends React.Component{
   }
 }
 /*TODO:
- * Make the naviagtion to beggning works:
- *   <<
  * Create a button to go to the last and first pages "|< >|"
- * Move some logics from handleclick to a nre function
+ * Move some logics from handleclick to a new function
  *
  * Change the active page button's collor
  * Add Effects (transition)
+ * Add PropTypes
  *
- * Check if is possible to make this component a functional component
  */
